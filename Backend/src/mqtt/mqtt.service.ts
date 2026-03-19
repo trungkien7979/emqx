@@ -1,10 +1,9 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import * as mqtt from 'mqtt';
 import { WsGateway } from '../ws/ws.gateway';
-import { log } from 'console';
 
 @Injectable()
-export class MqttService implements OnModuleInit {
+export class MqttService implements OnModuleInit, OnModuleDestroy {
   private client: mqtt.MqttClient;
 
   constructor(private readonly ws: WsGateway) {}
@@ -42,5 +41,23 @@ export class MqttService implements OnModuleInit {
     this.client.on('error', (error) => {
       console.log('MQTT Error:', error);
     });
+  }
+
+  onModuleDestroy() {
+    if (this.client && this.client.connected) {
+      this.client.unsubscribe('gateway/device/data', (err) => {
+        if (err) {
+          console.log('Unsubscribe error:', err);
+        }
+      });
+
+      this.client.end(false, () => {
+        console.log('MQTT client disconnected cleanly');
+      });
+    } else if (this.client) {
+      this.client.end(true, () => {
+        console.log('MQTT client disconnected (force)');
+      });
+    }
   }
 }
