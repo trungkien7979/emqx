@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-Time IoT Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>IoT Monitoring Dashboard</h1>
+        <div id="connectionStatus" class="status disconnected">
+          <div class="indicator"></div>
+          <span id="statusText">Awaiting server...</span>
+        </div>
+      </div>
+
+      <div class="dashboard">
+        <!-- Temperature Card -->
+        <div class="card">
+          <div class="card-title">
+            <div class="icon-box icon-temp">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"
+                ></path>
+              </svg>
+            </div>
+            Temperature
+          </div>
+          <div class="value">
+            <span id="tempValue">--</span><span class="unit">°C</span>
+          </div>
+          <div class="meta">
+            <span class="tag" id="tempDevice">Waiting for data...</span>
+            <span id="tempTime">--:--:--</span>
+          </div>
+        </div>
+
+        <!-- Humidity Card -->
+        <div class="card">
+          <div class="card-title">
+            <div class="icon-box icon-hum">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
+            Humidity
+          </div>
+          <div class="value">
+            <span id="humValue">--</span><span class="unit">%</span>
+          </div>
+          <div class="meta">
+            <span class="tag" id="humDevice">Waiting for data...</span>
+            <span id="humTime">--:--:--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="log-container" id="logContainer">
+        <div
+          style="
+            opacity: 0.5;
+            text-align: center;
+            margin-top: 20px;
+            font-family: 'Inter', sans-serif;
+          "
+        >
+          Awaiting incoming data stream from Gateway...
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
